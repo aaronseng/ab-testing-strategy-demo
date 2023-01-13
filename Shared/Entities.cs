@@ -16,11 +16,27 @@
     public struct User
     {
         public string Name;
+        public Power Power;
         public string Group = "A";
 
         public User()
         {
             Name = string.Empty;
+            Power = new Power();
+        }
+    }
+
+    public struct Power
+    {
+        public int Magic;
+        public int Attack;
+        public string Group;
+
+        public Power()
+        {
+            Magic = 0;
+            Attack = 0;
+            Group = "A";
         }
     }
 }

@@ -39,5 +39,10 @@ namespace Hanser.AB.Backend
 
             return data;
         }
+
+        public static void SendChangeSet(ChangeSet changeSet)
+        {
+            Console.WriteLine($"{Environment.NewLine}[Backend][WebAPI] : Received ChangeSet [{changeSet.GetType().Name}]");
+        }
     }
 }

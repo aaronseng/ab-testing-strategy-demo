@@ -11,7 +11,7 @@ namespace Hanser.AB.Unity
         {
             _localUser = MockWebAPI.Login();
 
-            Console.WriteLine($"Logged in as '{_localUser.Name}' who belongs to the ABGroup [{_localUser.Group}] ");
+            Console.WriteLine($"[UnityRunner][WebClient] : Logged in as '{_localUser.Name}' who belongs to the ABGroup [{_localUser.Group}] ");
 
             return _localUser;
         }
@@ -28,9 +28,17 @@ namespace Hanser.AB.Unity
             MockWebAPI.SetHeader(_localUser.Group);
             var goblin = MockWebAPI.GetGoblin();
 
-            Console.WriteLine($"Goblin Health: {goblin.Health} - Power: {goblin.Power} - Version: {goblin.Version}");
+            Console.WriteLine($"[UnityRunner][WebClient] : Goblin Health: {goblin.Health} - Power: {goblin.Power} - Version: {goblin.Version}");
 
             return goblin;
+        }
+
+        public static void SendChangeSet(ChangeSet changeSet)
+        {
+            Console.WriteLine($"[UnityRunner][WebClient] : Send ChangeSet [{changeSet.GetType().Name}] to the backend");
+
+            MockWebAPI.SetHeader(_localUser.Group);
+            MockWebAPI.SendChangeSet(changeSet);
         }
     }
 }

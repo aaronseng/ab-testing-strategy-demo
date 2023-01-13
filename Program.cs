@@ -20,7 +20,6 @@ namespace Hanser.AB
             IServiceCollection services = new ServiceCollection();
             services.AddTransient<IGameEngineDataLoader, GameEngineDataLoader>();
             services.AddTransient<ChangeSetProcessor>();
-            services.AddTransient<GameEngine>();
             services.AddSingleton<UnityRunner>();
             return services;
         }

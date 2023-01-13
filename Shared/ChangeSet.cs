@@ -2,6 +2,6 @@
 {
     public abstract class ChangeSet
     {
-    
+        public Guid Id { get; set; }
     }
 }

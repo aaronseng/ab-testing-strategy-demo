@@ -2,6 +2,6 @@
 {
     public class AttackChangeSet : ChangeSet
     {
-    
+        public Power Power { get; set; }
     }
 }
