@@ -1,4 +1,6 @@
-﻿using Hanser.AB.Unity;
+﻿using Hanser.AB.Shared;
+using Hanser.AB.Unity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Hanser.AB
 {
@@ -6,9 +8,21 @@ namespace Hanser.AB
     {
         public static void Main(string[] args)
         {
-            var unityRunner = new UnityRunner();
+            var services = ConfigureServices();
+            var serviceProvider = services.BuildServiceProvider();
+            var unityRunner = serviceProvider.GetService<UnityRunner>();
 
-            unityRunner.Initialize();
+            unityRunner?.Run();
+        }
+
+        private static IServiceCollection ConfigureServices()
+        {
+            IServiceCollection services = new ServiceCollection();
+            services.AddTransient<IGameEngineDataLoader, GameEngineDataLoader>();
+            services.AddTransient<ChangeSetProcessor>();
+            services.AddTransient<GameEngine>();
+            services.AddSingleton<UnityRunner>();
+            return services;
         }
     }
 }
