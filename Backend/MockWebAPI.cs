@@ -6,7 +6,16 @@ namespace Hanser.AB.Backend
     {
         private static readonly Random Generator = new Random(DateTime.UtcNow.Millisecond);
 
-        public static string Jwt { get; set; } = "";
+        private static string Jwt;
+
+        /// <summary>
+        /// Simulate Header for the request
+        /// </summary>
+        /// <param name="jwt">Jwt token</param>
+        public static void SetHeader(string jwt)
+        {
+            Jwt = jwt;
+        }
 
         /// <summary>
         /// Returns a random user who belongs to group 'A' or 'B'
