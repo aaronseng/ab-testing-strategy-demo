@@ -4,20 +4,54 @@ namespace Hanser.AB.Backend
 {
     public static class MockDatabase
     {
+        private static readonly Monster Goblin = new() {Health = 50, Power = 10};
         private static readonly Monster GoblinA = new() {Health = 100, Power = 20};
-        private static readonly Monster GoblinB = new() {Health = 50, Power = 10, Version = "B"};
+        private static readonly Monster GoblinB = new() {Health = 50, Power = 20};
 
-        private static readonly User UserA = new() {Name = "John Doe", Power = new Power { Magic = 10, Attack = 10, Group = "A" }};
-        private static readonly User UserB = new() {Name = "Jane Doe", Group = "B", Power = new Power { Magic = 20, Attack = 20, Group = "C" }};
+        private static readonly Power Power = new Power {Magic = 10, Attack = 10};
+        private static readonly Power PowerA = new Power {Magic = 10, Attack = 20};
+        private static readonly Power PowerB = new Power {Magic = 20, Attack = 10};
+        private static readonly Power PowerC = new Power {Magic = 20, Attack = 20};
 
-        public static Monster SelectGoblin(string version)
+        private static readonly User John = new() {Name = "John Doe", Power = Power};
+        private static readonly User Jane = new() {Name = "Jane Doe", Power = Power};
+
+        public static Monster SelectGoblin(string[] groups)
         {
-            return version == "A" ? GoblinA : GoblinB;
+            if (groups.Contains("Goblin_Config_A"))
+            {
+                return GoblinA;
+            }
+
+            if (groups.Contains("Goblin_Config_B"))
+            {
+                return GoblinB;
+            }
+
+            return Goblin;
         }
 
-        public static User GetUser(string group)
+        public static User GetUser(string name, string[] groups)
         {
-            return group == "A" ? UserA : UserB;
+            var user = name == "John" ? John : Jane;
+
+            if (groups.Contains("User_Power_A"))
+            {
+                user.Power = PowerA;
+            }
+            else if (groups.Contains("User_Power_B"))
+            {
+                user.Power = PowerB;
+            }
+            else if (groups.Contains("User_Power_C"))
+            {
+                user.Power = PowerC;
+            }
+
+            // Simulate Jwt[Groups] put incoming groups data into Jwt[Groups] 
+            user.Groups = groups;
+
+            return user;
         }
     }
 }
