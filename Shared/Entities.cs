@@ -1,5 +1,15 @@
 ﻿namespace Hanser.AB.Shared
 {
+    public struct FirebaseModel
+    {
+        public string[] Groups;
+
+        public FirebaseModel()
+        {
+            Groups = new[] {string.Empty};
+        }
+    }
+    
     public struct Monster
     {
         public float Health;

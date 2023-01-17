@@ -17,11 +17,21 @@ namespace Hanser.AB.Shared.Factory
 
         public IAttackLogicHandler GetHandler()
         {
-            _handlers.TryGetValue("default", out var handler);
+            IAttackLogicHandler handler;
 
             foreach (var key in _factoryMethods.Keys)
             {
-                TryGetHandler(key, out handler);
+                if (TryGetHandler(key, out handler))
+                {
+                    return handler;
+                }
+            }
+
+            // Initialize default handler if the user doesn't belong to any attack group
+            if (!_handlers.TryGetValue("default", out handler))
+            {
+                handler = _factoryMethods["default"].Invoke(_dataProvider);
+                _handlers["default"] = handler;
             }
 
             return handler;
@@ -54,6 +64,11 @@ namespace Hanser.AB.Shared.Factory
         public static void Register(string key, Func<IGameEngineDataLoader, IAttackLogicHandler> method)
         {
             _factoryMethods.Add(key, method);
+        }
+
+        public static void Clear()
+        {
+            _factoryMethods.Clear();
         }
     }
 }
