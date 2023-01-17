@@ -1,19 +1,38 @@
-﻿using Hanser.AB.Util;
+﻿using Hanser.AB.Shared.Factory;
+using Hanser.AB.Shared.Handlers;
+using Hanser.AB.Util;
 
 namespace Hanser.AB.Shared
 {
     public class ChangeSetProcessor
     {
-        public string Runner { get; set; }
+        private readonly IAttackLogicFactory _attackLogicFactory;
+        public string Runner { get; set; } = string.Empty;
 
-        public ChangeSetProcessor()
+        public ChangeSetProcessor(IAttackLogicFactory attackLogicFactory)
         {
+            _attackLogicFactory = attackLogicFactory;
+
+            Initialize();
         }
 
-        public bool ProcessChangeSet(ChangeSet changeSet)
+        public void ProcessChangeSet(ChangeSet changeSet)
         {
-            Logger.Log(Runner, "Shared", $"Processing ChangeSet [{changeSet.GetType().Name}]", false, ConsoleColor.Yellow);
-            return true;
+            Logger.Log(Runner, "Shared", $"Handling ChangeSet [{changeSet.GetType().Name}]", false, ConsoleColor.Yellow);
+
+            if (changeSet is AttackChangeSet attackChangeSet)
+            {
+                var handler = _attackLogicFactory.GetHandler();
+                handler.Runner = Runner;
+                handler.Damage(attackChangeSet);
+            }
+        }
+
+        private void Initialize()
+        {
+            // Register factory methods
+            AttackLogicFactory.Register("default", AttackLogicHandler.Create);
+            AttackLogicFactory.Register("Attack_Handler_Boosted", BoostedAttackLogicHandler.Create);
         }
     }
 }

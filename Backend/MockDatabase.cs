@@ -4,7 +4,7 @@ namespace Hanser.AB.Backend
 {
     public static class MockDatabase
     {
-        private static readonly Monster Goblin = new() {Health = 50, Power = 10};
+        private static readonly Monster Goblin = new() {Health = 75, Power = 10};
         private static readonly Monster GoblinA = new() {Health = 100, Power = 20};
         private static readonly Monster GoblinB = new() {Health = 50, Power = 20};
 
