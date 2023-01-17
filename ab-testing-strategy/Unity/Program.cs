@@ -5,12 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Hanser.AB
 {
-    internal static class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
             var services = ConfigureServices();
             var serviceProvider = services.BuildServiceProvider();
+
             using (var unityScope = serviceProvider.CreateScope())
             {
                 var unityRunner = unityScope.ServiceProvider.GetService<UnityRunner>();
@@ -22,12 +23,16 @@ namespace Hanser.AB
                 var unityRunner = unityScope.ServiceProvider.GetService<UnityRunner>();
                 unityRunner?.Run("John", new FirebaseModel() { Groups = new string[] { "Goblin_Config_B", "User_Power_C", "Attack_Handler_Boosted" } });
             }
+
+            Console.ReadLine();
         }
 
         private static IServiceCollection ConfigureServices()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddScoped<IGameEngineDataLoader, GameEngineDataLoader>();
+            services.AddScoped<IGameEngineDataLoader, UnityGameEngineDataLoader>();
+            services.AddTransient<IUserDataLoader, UserDataLoader>();
+            services.AddTransient<IMonsterDataLoader, MonsterDataLoader>();
             services.AddTransient<IAttackLogicFactory, AttackLogicFactory>();
             services.AddTransient<ChangeSetProcessor>();
             services.AddScoped<UnityRunner>();

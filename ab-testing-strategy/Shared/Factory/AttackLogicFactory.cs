@@ -7,11 +7,11 @@ namespace Hanser.AB.Shared.Factory
         private readonly Dictionary<string, Func<IGameEngineDataLoader, IAttackLogicHandler>> _factoryMethods = new Dictionary<string, Func<IGameEngineDataLoader, IAttackLogicHandler>>();
         private readonly Dictionary<string, IAttackLogicHandler> _handlers = new Dictionary<string, IAttackLogicHandler>();
 
-        private readonly IGameEngineDataLoader _dataProvider;
+        private readonly IGameEngineDataLoader _gameEngineDataLoader;
 
-        public AttackLogicFactory(IGameEngineDataLoader dataProvider)
+        public AttackLogicFactory(IGameEngineDataLoader gameEngineDataLoader)
         {
-            _dataProvider = dataProvider;
+            _gameEngineDataLoader = gameEngineDataLoader;
         }
 
         public IAttackLogicHandler GetHandler()
@@ -29,7 +29,7 @@ namespace Hanser.AB.Shared.Factory
             // Initialize default handler if the user doesn't belong to any attack group
             if (!_handlers.TryGetValue("default", out handler))
             {
-                handler = _factoryMethods["default"].Invoke(_dataProvider);
+                handler = _factoryMethods["default"].Invoke(_gameEngineDataLoader);
                 _handlers["default"] = handler;
             }
 
@@ -40,7 +40,7 @@ namespace Hanser.AB.Shared.Factory
         {
             handler = null;
 
-            if (_dataProvider.User.Groups!.Contains(key))
+            if (_gameEngineDataLoader.UserDataProvider.User.Groups!.Contains(key))
             {
                 if (_handlers.TryGetValue(key, out handler))
                 {
@@ -52,7 +52,7 @@ namespace Hanser.AB.Shared.Factory
                     return false;
                 }
 
-                handler = _factoryMethods[key].Invoke(_dataProvider);
+                handler = _factoryMethods[key].Invoke(_gameEngineDataLoader);
                 _handlers[key] = handler;
                 return true;
             }

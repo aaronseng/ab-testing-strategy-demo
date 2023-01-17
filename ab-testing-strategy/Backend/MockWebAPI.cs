@@ -41,7 +41,7 @@ namespace Hanser.AB.Backend
 
         public static void SendChangeSet(ChangeSet changeSet)
         {
-            Logger.Log("Backend", "WebAPI", $"Received ChangeSet [{changeSet.GetType().Name}]", true, ConsoleColor.DarkMagenta);
+            Logger.Log("Backend2", "WebAPI", $"Received ChangeSet [{changeSet.GetType().Name}]", true, ConsoleColor.DarkMagenta);
         }
     }
 }

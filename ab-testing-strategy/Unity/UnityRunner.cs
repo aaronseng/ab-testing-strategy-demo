@@ -1,4 +1,5 @@
-﻿using Hanser.AB.Shared;
+﻿using System.Net.Http.Headers;
+using Hanser.AB.Shared;
 using Hanser.AB.Util;
 
 namespace Hanser.AB.Unity
@@ -8,7 +9,7 @@ namespace Hanser.AB.Unity
         private readonly IGameEngineDataLoader _gameEngineDataLoader;
         private readonly ChangeSetProcessor _changeSetProcessor;
 
-        public UnityRunner(IGameEngineDataLoader gameEngineDataLoader, ChangeSetProcessor changeSetProcessor)
+        public UnityRunner(ChangeSetProcessor changeSetProcessor, IGameEngineDataLoader gameEngineDataLoader)
         {
             _gameEngineDataLoader = gameEngineDataLoader;
             _changeSetProcessor = changeSetProcessor;
@@ -16,8 +17,23 @@ namespace Hanser.AB.Unity
             _changeSetProcessor.Runner = nameof(UnityRunner);
         }
 
-        public void Run(string uid, FirebaseModel mockFirebase)
+        public async void Run(string uid, FirebaseModel mockFirebase)
         {
+            using HttpClient client = new();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json")); 
+            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
+
+            await ProcessRepositoriesAsync(client);
+
+            static async Task ProcessRepositoriesAsync(HttpClient client)
+            {
+                var json = await client.PostAsync("https://localhost:7292/login", new StringContent("HARUN asdfasdf") );
+
+                Console.Write(json);
+            }
+            
             Console.WriteLine($"{Environment.NewLine}# SIMULATING AB-TESTING DATA #");
 
             Logger.Log("UnityRunner", "Firebase", $"Received user group data Groups: [{string.Join(", ", mockFirebase.Groups)}]", true, ConsoleColor.DarkRed);
@@ -30,8 +46,8 @@ namespace Hanser.AB.Unity
 
             Console.WriteLine($"{Environment.NewLine}# SETTING-UP GAME ENGINE FOR THE UNITY RUNNER #");
 
-            _gameEngineDataLoader.LoadUser(user);
-            _gameEngineDataLoader.LoadMonsterConfig(monster);
+            _gameEngineDataLoader.UserDataProvider.LoadUser(user);
+            _gameEngineDataLoader.MonsterDataProvider.LoadMonsterConfig(monster);
 
             var attack = new AttackChangeSet() {Id = new Guid(), Power = user.Power};
 
