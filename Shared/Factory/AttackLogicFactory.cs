@@ -4,11 +4,10 @@ namespace Hanser.AB.Shared.Factory
 {
     public class AttackLogicFactory : IAttackLogicFactory
     {
+        private readonly Dictionary<string, Func<IGameEngineDataLoader, IAttackLogicHandler>> _factoryMethods = new Dictionary<string, Func<IGameEngineDataLoader, IAttackLogicHandler>>();
+        private readonly Dictionary<string, IAttackLogicHandler> _handlers = new Dictionary<string, IAttackLogicHandler>();
+
         private readonly IGameEngineDataLoader _dataProvider;
-
-        private static Dictionary<string, Func<IGameEngineDataLoader, IAttackLogicHandler>> _factoryMethods = new Dictionary<string, Func<IGameEngineDataLoader, IAttackLogicHandler>>();
-
-        private Dictionary<string, IAttackLogicHandler> _handlers = new Dictionary<string, IAttackLogicHandler>();
 
         public AttackLogicFactory(IGameEngineDataLoader dataProvider)
         {
@@ -61,14 +60,9 @@ namespace Hanser.AB.Shared.Factory
             return false;
         }
 
-        public static void Register(string key, Func<IGameEngineDataLoader, IAttackLogicHandler> method)
+        public void Register(string key, Func<IGameEngineDataLoader, IAttackLogicHandler> method)
         {
             _factoryMethods.Add(key, method);
-        }
-
-        public static void Clear()
-        {
-            _factoryMethods.Clear();
         }
     }
 }

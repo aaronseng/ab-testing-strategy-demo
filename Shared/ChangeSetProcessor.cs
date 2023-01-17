@@ -31,8 +31,8 @@ namespace Hanser.AB.Shared
         private void Initialize()
         {
             // Register factory methods
-            AttackLogicFactory.Register("default", AttackLogicHandler.Create);
-            AttackLogicFactory.Register("Attack_Handler_Boosted", BoostedAttackLogicHandler.Create);
+            _attackLogicFactory.Register("default", AttackLogicHandler.Create);
+            _attackLogicFactory.Register("Attack_Handler_Boosted", BoostedAttackLogicHandler.Create);
         }
     }
 }
