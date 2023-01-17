@@ -30,7 +30,7 @@ namespace Hanser.AB.Unity
         {
             Console.WriteLine("# SIMULATING AB-TESTING DATA #");
 
-            var mockFirebase = new FirebaseModel() {Groups = new string[] {"Goblin_Config_A", "User_Power_C"}};
+            var mockFirebase = new FirebaseModel() {Groups = new string[] {"Goblin_Config_B", "User_Power_C", "Attack_Handler_Boosted"}};
             Logger.Log("UnityRunner", "Firebase", $"Received user group data Groups: [{string.Join(", ", mockFirebase.Groups)}]", true, ConsoleColor.DarkRed);
 
             Logger.Log("UnityRunner", string.Empty, "Logging in...");

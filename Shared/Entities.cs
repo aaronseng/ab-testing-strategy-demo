@@ -41,5 +41,10 @@
             Magic = 0;
             Attack = 0;
         }
+
+        public override string ToString()
+        {
+            return $"Attack: {Attack} - Magic: {Magic}";
+        }
     }
 }
