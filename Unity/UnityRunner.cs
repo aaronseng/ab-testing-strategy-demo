@@ -8,16 +8,6 @@ namespace Hanser.AB.Unity
         private readonly IGameEngineDataLoader _gameEngineDataLoader;
         private readonly ChangeSetProcessor _changeSetProcessor;
 
-        private struct FirebaseModel
-        {
-            public string[] Groups;
-
-            public FirebaseModel()
-            {
-                Groups = new[] {string.Empty};
-            }
-        }
-
         public UnityRunner(IGameEngineDataLoader gameEngineDataLoader, ChangeSetProcessor changeSetProcessor)
         {
             _gameEngineDataLoader = gameEngineDataLoader;
@@ -26,15 +16,14 @@ namespace Hanser.AB.Unity
             _changeSetProcessor.Runner = nameof(UnityRunner);
         }
 
-        public void Run()
+        public void Run(string uid, FirebaseModel mockFirebase)
         {
-            Console.WriteLine("# SIMULATING AB-TESTING DATA #");
+            Console.WriteLine($"{Environment.NewLine}# SIMULATING AB-TESTING DATA #");
 
-            var mockFirebase = new FirebaseModel() {Groups = new string[] {"Goblin_Config_B", "User_Power_C", "Attack_Handler_Boosted"}};
             Logger.Log("UnityRunner", "Firebase", $"Received user group data Groups: [{string.Join(", ", mockFirebase.Groups)}]", true, ConsoleColor.DarkRed);
 
             Logger.Log("UnityRunner", string.Empty, "Logging in...");
-            var user = MockWebClient.Login("John", mockFirebase.Groups);
+            var user = MockWebClient.Login(uid, mockFirebase.Groups);
 
             Logger.Log("UnityRunner", string.Empty, "Getting monster config...");
             var monster = MockWebClient.GetGoblin();

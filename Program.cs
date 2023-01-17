@@ -14,7 +14,14 @@ namespace Hanser.AB
             using (var unityScope = serviceProvider.CreateScope())
             {
                 var unityRunner = unityScope.ServiceProvider.GetService<UnityRunner>();
-                unityRunner?.Run();
+                unityRunner?.Run("Jane", new FirebaseModel() { Groups = new string[] { } });
+            }
+
+            using (var unityScope = serviceProvider.CreateScope())
+            {
+                AttackLogicFactory.Clear();
+                var unityRunner = unityScope.ServiceProvider.GetService<UnityRunner>();
+                unityRunner?.Run("John", new FirebaseModel() { Groups = new string[] { "Goblin_Config_B", "User_Power_C", "Attack_Handler_Boosted" } });
             }
         }
 
@@ -24,7 +31,7 @@ namespace Hanser.AB
             services.AddScoped<IGameEngineDataLoader, GameEngineDataLoader>();
             services.AddTransient<IAttackLogicFactory, AttackLogicFactory>();
             services.AddTransient<ChangeSetProcessor>();
-            services.AddSingleton<UnityRunner>();
+            services.AddScoped<UnityRunner>();
             return services;
         }
     }
