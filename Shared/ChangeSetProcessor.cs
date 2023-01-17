@@ -1,4 +1,6 @@
-﻿namespace Hanser.AB.Shared
+﻿using Hanser.AB.Util;
+
+namespace Hanser.AB.Shared
 {
     public class ChangeSetProcessor
     {
@@ -10,7 +12,7 @@
 
         public bool ProcessChangeSet(ChangeSet changeSet)
         {
-            Console.WriteLine($"{Environment.NewLine}[{Runner}][Shared] : Processing ChangeSet [{changeSet.GetType().Name}]");
+            Logger.Log(Runner, "Shared", $"Processing ChangeSet [{changeSet.GetType().Name}]", false, ConsoleColor.Yellow);
             return true;
         }
     }

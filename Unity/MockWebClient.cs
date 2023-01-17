@@ -1,5 +1,6 @@
 ﻿using Hanser.AB.Backend;
 using Hanser.AB.Shared;
+using Hanser.AB.Util;
 
 namespace Hanser.AB.Unity
 {
@@ -7,37 +8,37 @@ namespace Hanser.AB.Unity
     {
         private static User _localUser;
 
-        public static User Login()
+        public static User Login(string user, string[] groups)
         {
-            _localUser = MockWebAPI.Login();
+            _localUser = MockWebAPI.Login(user, groups);
 
-            Console.WriteLine($"[UnityRunner][WebClient] : Logged in as '{_localUser.Name}' who belongs to the ABGroup [{_localUser.Group}] ");
+            Logger.Log("UnityRunner", "WebClient", $"Logged in as '{_localUser.ToString()}' who belongs to the ABGroup [{string.Join(',', _localUser.Groups)}]", false, ConsoleColor.Magenta);
 
             return _localUser;
         }
 
         public static Monster GetGoblin()
         {
-            if (string.IsNullOrEmpty(_localUser.Group))
+            if (_localUser.Groups == null)
             {
                 Console.WriteLine("JWT is empty. You have to login first");
                 return default;
             }
 
             // User.Group will be used as JWT [version] payload
-            MockWebAPI.SetHeader(_localUser.Group);
+            MockWebAPI.SetHeader(_localUser.Groups);
             var goblin = MockWebAPI.GetGoblin();
 
-            Console.WriteLine($"[UnityRunner][WebClient] : Goblin Health: {goblin.Health} - Power: {goblin.Power} - Version: {goblin.Version}");
+            Logger.Log("UnityRunner", "WebClient", $"Goblin Health: {goblin.Health} - Power: {goblin.Power}", false, ConsoleColor.Magenta);
 
             return goblin;
         }
 
         public static void SendChangeSet(ChangeSet changeSet)
         {
-            Console.WriteLine($"[UnityRunner][WebClient] : Send ChangeSet [{changeSet.GetType().Name}] to the backend");
+            Logger.Log("UnityRunner", "WebClient", $"Send ChangeSet [{changeSet.GetType().Name}] to the backend", false, ConsoleColor.Magenta);
 
-            MockWebAPI.SetHeader(_localUser.Group);
+            MockWebAPI.SetHeader(_localUser.Groups);
             MockWebAPI.SendChangeSet(changeSet);
         }
     }

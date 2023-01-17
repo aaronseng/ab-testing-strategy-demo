@@ -4,7 +4,6 @@
     {
         public float Health;
         public float Power;
-        public string Version = "A";
 
         public Monster()
         {
@@ -17,12 +16,18 @@
     {
         public string Name;
         public Power Power;
-        public string Group = "A";
+        public string[]? Groups;
 
         public User()
         {
             Name = string.Empty;
             Power = new Power();
+            Groups = null;
+        }
+
+        public override string ToString()
+        {
+            return $"Name: {Name} - Attack: {Power.Attack} - Magic: {Power.Magic}";
         }
     }
 
@@ -30,13 +35,11 @@
     {
         public int Magic;
         public int Attack;
-        public string Group;
 
         public Power()
         {
             Magic = 0;
             Attack = 0;
-            Group = "A";
         }
     }
 }
