@@ -18,6 +18,8 @@ namespace Hanser.AB
                 unityRunner?.Run("Jane", new FirebaseModel() { Groups = new string[] { } });
             }
 
+            Console.ReadLine();
+
             using (var unityScope = serviceProvider.CreateScope())
             {
                 var unityRunner = unityScope.ServiceProvider.GetService<UnityRunner>();
@@ -35,6 +37,7 @@ namespace Hanser.AB
             services.AddTransient<IMonsterDataLoader, MonsterDataLoader>();
             services.AddTransient<IAttackLogicFactory, AttackLogicFactory>();
             services.AddTransient<ChangeSetProcessor>();
+            services.AddScoped<UnityWebClient>();
             services.AddScoped<UnityRunner>();
             return services;
         }

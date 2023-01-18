@@ -8,41 +8,28 @@ namespace Hanser.AB.Unity
     {
         private readonly IGameEngineDataLoader _gameEngineDataLoader;
         private readonly ChangeSetProcessor _changeSetProcessor;
+        private readonly UnityWebClient _webClient;
 
-        public UnityRunner(ChangeSetProcessor changeSetProcessor, IGameEngineDataLoader gameEngineDataLoader)
+        public UnityRunner(ChangeSetProcessor changeSetProcessor, IGameEngineDataLoader gameEngineDataLoader, UnityWebClient webClient)
         {
             _gameEngineDataLoader = gameEngineDataLoader;
             _changeSetProcessor = changeSetProcessor;
+            _webClient = webClient;
 
             _changeSetProcessor.Runner = nameof(UnityRunner);
         }
 
-        public async void Run(string uid, FirebaseModel mockFirebase)
+        public async Task Run(string uid, FirebaseModel mockFirebase)
         {
-            using HttpClient client = new();
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json")); 
-            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
-
-            await ProcessRepositoriesAsync(client);
-
-            static async Task ProcessRepositoriesAsync(HttpClient client)
-            {
-                var json = await client.PostAsync("https://localhost:7292/login", new StringContent("HARUN asdfasdf") );
-
-                Console.Write(json);
-            }
-            
             Console.WriteLine($"{Environment.NewLine}# SIMULATING AB-TESTING DATA #");
 
             Logger.Log("UnityRunner", "Firebase", $"Received user group data Groups: [{string.Join(", ", mockFirebase.Groups)}]", true, ConsoleColor.DarkRed);
 
             Logger.Log("UnityRunner", string.Empty, "Logging in...");
-            var user = MockWebClient.Login(uid, mockFirebase.Groups);
+            var user = await _webClient.Login(uid, mockFirebase.Groups);
 
             Logger.Log("UnityRunner", string.Empty, "Getting monster config...");
-            var monster = MockWebClient.GetGoblin();
+            var monster = await _webClient.GetMonster();
 
             Console.WriteLine($"{Environment.NewLine}# SETTING-UP GAME ENGINE FOR THE UNITY RUNNER #");
 
@@ -54,7 +41,7 @@ namespace Hanser.AB.Unity
             Logger.Log("UnityRunner", string.Empty, "Running a ChangeSet...");
             _changeSetProcessor.ProcessChangeSet(attack);
 
-            MockWebClient.SendChangeSet(attack);
+            _webClient.SendChangeSet(attack);
         }
     }
 }

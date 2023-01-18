@@ -17,28 +17,18 @@ namespace Hanser.AB.Backend
                 var backendRunner = backend.ServiceProvider.GetService<BackendRunner>();
                 backendRunner?.Run();
             }
-
-            var builder = WebApplication.CreateBuilder(args);
-            var app = builder.Build();
-
-            // JsonConvert.SerializeObject(MockWebAPI.Login("John", new string[] { "User_Power_C", "Attack_Handler_Boosted" }));
-            app.MapPost("/login", async context =>
-            {
-                using var reader = new StreamReader(context.Request.Body, Encoding.UTF8);
-                var jsonObject =  await reader.ReadToEndAsync();
-            });
-            
-            app.Run();
         }
 
         private static IServiceCollection ConfigureServices()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddScoped<IGameEngineDataLoader, BackendGameEngineDataLoader>();
+            services.AddScoped<IGameEngineDataLoader>(serviceProvider => serviceProvider.GetRequiredService<BackendGameEngineDataLoader>());
+            services.AddScoped<BackendGameEngineDataLoader>();
             services.AddTransient<IUserDataLoader, UserDataLoader>();
             services.AddTransient<IMonsterDataLoader, MonsterDataLoader>();
             services.AddTransient<IAttackLogicFactory, AttackLogicFactory>();
-            services.AddTransient<ChangeSetProcessor>();
+            services.AddScoped<ChangeSetProcessor>();
+            services.AddScoped<WebApi>();
             services.AddScoped<BackendRunner>();
             return services;
         }

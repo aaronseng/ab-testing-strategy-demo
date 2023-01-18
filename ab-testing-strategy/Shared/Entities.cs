@@ -1,5 +1,41 @@
-﻿namespace Hanser.AB.Shared
+﻿using System.Text.RegularExpressions;
+
+namespace Hanser.AB.Shared
 {
+    public struct LoginRequest
+    {
+        public string Name;
+        public string[] Groups;
+
+        public LoginRequest()
+        {
+            Name = "";
+            Groups = Array.Empty<string>();
+        }
+    }
+
+    public struct MonsterRequest
+    {
+        public string[] Groups;
+
+        public MonsterRequest()
+        {
+            Groups = Array.Empty<string>();
+        }
+    }
+
+    public struct ChangeSetRequest
+    {
+        public AttackChangeSet ChangeSet;
+        public User Player;
+
+        public ChangeSetRequest()
+        {
+            ChangeSet = null;
+            Player = default;
+        }
+    }
+    
     public struct FirebaseModel
     {
         public string[] Groups;
