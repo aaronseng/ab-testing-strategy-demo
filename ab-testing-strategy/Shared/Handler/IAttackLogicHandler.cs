@@ -4,6 +4,6 @@
     {
         public string Runner { get; set; }
 
-        public void Damage(AttackChangeSet changeSet);
+        public void Damage(BattleChangeSet changeSet);
     }
 }

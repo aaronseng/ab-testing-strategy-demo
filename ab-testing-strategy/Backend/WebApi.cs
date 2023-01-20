@@ -59,12 +59,12 @@ namespace Hanser.AB.Backend
 
             var changeSet = changeSetRequest.ChangeSet;
 
-            Logger.Log("BackendRunner", "WebAPI", $"Received ChangeSet [{changeSet.GetType().Name}]", true, ConsoleColor.DarkMagenta);
+            Logger.Log("WebAPI", $"Received ChangeSet [{changeSet.GetType().Name}]", true, ConsoleColor.DarkMagenta);
 
             _gameEngineDataLoader.UserDataProvider.LoadUser(changeSetRequest.Player);
             // TODO: Auto switch the context whenever a User loaded 
             _gameEngineDataLoader.SwitchContext();
-            _changeSetProcessor.ProcessChangeSet(changeSet);
+            _changeSetProcessor.Process(changeSet);
         }
     }
 }

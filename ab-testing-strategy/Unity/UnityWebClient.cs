@@ -28,7 +28,7 @@ namespace Hanser.AB.Unity
             var response = await Request("login", JsonConvert.SerializeObject(request));
             _localUser = JsonConvert.DeserializeObject<User>(response);
 
-            Logger.Log("UnityRunner", "WebClient", $"Logged in as '{_localUser.ToString()}' who belongs to the ABGroup [{string.Join(',', _localUser.Groups)}]", false, ConsoleColor.Magenta);
+            Logger.Log("WebClient", $"Logged in as '{_localUser.ToString()}' who belongs to the ABGroup [{string.Join(',', _localUser.Groups)}]", false, ConsoleColor.Magenta);
 
             return _localUser;
         }
@@ -47,14 +47,14 @@ namespace Hanser.AB.Unity
             var response = await Request("getMonster", JsonConvert.SerializeObject(request));
             var monster = JsonConvert.DeserializeObject<Monster>(response);
 
-            Logger.Log("UnityRunner", "WebClient", $"Monster Health: {monster.Health} - Power: {monster.Power}", false, ConsoleColor.Magenta);
+            Logger.Log("WebClient", $"Monster Health: {monster.Health} - Power: {monster.Power}", false, ConsoleColor.Magenta);
 
             return monster;
         }
 
-        public async void SendChangeSet(AttackChangeSet changeSet)
+        public async void SendChangeSet(BattleChangeSet changeSet)
         {
-            Logger.Log("UnityRunner", "WebClient", $"Send ChangeSet [{changeSet.GetType().Name}] to the backend", false, ConsoleColor.Magenta);
+            Logger.Log("WebClient", $"Send ChangeSet [{changeSet.GetType().Name}] to the backend", false, ConsoleColor.Magenta);
 
             // Don't need to set Groups when JWT integrated
             var request = new ChangeSetRequest() {Player = _localUser, ChangeSet = changeSet};

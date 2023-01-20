@@ -1,6 +1,6 @@
 ﻿namespace Hanser.AB.Shared
 {
-    public class AttackChangeSet : ChangeSet
+    public class BattleChangeSet : ChangeSet
     {
         public Power Power { get; set; }
     }

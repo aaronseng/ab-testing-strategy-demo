@@ -1,5 +1,6 @@
 using Hanser.AB.Backend.Integration;
 using Hanser.AB.Shared;
+using Hanser.AB.Util;
 
 namespace Hanser.AB.Backend
 {
@@ -15,7 +16,7 @@ namespace Hanser.AB.Backend
             _changeSetProcessor = changeSetProcessor;
             _webApi = webApi;
 
-            _changeSetProcessor.Runner = nameof(BackendRunner);
+            Logger.Runner = nameof(BackendRunner);
         }
 
         public void Run()

@@ -26,7 +26,7 @@ namespace Hanser.AB.Shared
 
     public struct ChangeSetRequest
     {
-        public AttackChangeSet ChangeSet;
+        public BattleChangeSet ChangeSet;
         public User Player;
 
         public ChangeSetRequest()
