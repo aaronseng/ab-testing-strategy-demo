@@ -26,25 +26,26 @@ namespace Hanser.AB.Backend
             IServiceCollection services = new ServiceCollection();
             services.AddScoped<IGameEngineDataLoader>(serviceProvider => serviceProvider.GetRequiredService<BackendGameEngineDataLoader>());
             services.AddScoped<BackendGameEngineDataLoader>();
+
+            services.AddScoped<IUserDataLoader, UserDataLoader>();
+            services.AddScoped<IMonsterDataLoader, MonsterDataLoader>();
             services.AddScoped<ChangeSetProcessor>();
             services.AddScoped<BattleChangeSetProcessor>();
             services.AddScoped<AttackDamageHandler>();
             services.AddScoped<MagicDamageHandler>();
-            services.AddTransient<IUserDataLoader, UserDataLoader>();
-            services.AddTransient<IMonsterDataLoader, MonsterDataLoader>();
             services.AddScoped<WebApi>();
             services.AddScoped<BackendRunner>();
 
             services.AddScoped<IUserGroupProvider, UserGroupProvider>();
             services.AddScoped<IBattleStrategyProvider, BattleStrategyProvider>();
-           
+
             services.AddScoped<DefaultAttackDamageStrategy>();
             services.AddScoped<DefaultMagicDamageStrategy>();
 
             services.AddScoped<IBattleHandlerStrategy>(x => x.GetRequiredService<DefaultAttackDamageStrategy>());
             services.AddScoped<IBattleHandlerStrategy>(x => x.GetRequiredService<DefaultMagicDamageStrategy>());
             services.AddScoped<IBattleHandlerStrategy, BleedAttackDamageStrategy>();
-            
+
             return services;
         }
     }

@@ -18,7 +18,7 @@ namespace Hanser.AB
             using (var unityScope = serviceProvider.CreateScope())
             {
                 var unityRunner = unityScope.ServiceProvider.GetService<UnityRunner>();
-                unityRunner?.Run("John", new FirebaseModel() { Groups = new string[] { "Battle_AttackDamage_Bleed" } });
+                unityRunner?.Run("Jane", new FirebaseModel() {Groups = new string[] { }});
             }
 
             Console.ReadLine();
@@ -26,7 +26,7 @@ namespace Hanser.AB
             using (var unityScope = serviceProvider.CreateScope())
             {
                 var unityRunner = unityScope.ServiceProvider.GetService<UnityRunner>();
-                unityRunner?.Run("Jane", new FirebaseModel() { Groups = new string[] { } });
+                unityRunner?.Run("John", new FirebaseModel() {Groups = new string[] {"Battle_AttackDamage_Bleed"}});
             }
 
             Console.ReadLine();
@@ -47,7 +47,7 @@ namespace Hanser.AB
 
             services.AddScoped<IUserGroupProvider, UserGroupProvider>();
             services.AddScoped<IBattleStrategyProvider, BattleStrategyProvider>();
-            
+
             services.AddScoped<DefaultAttackDamageStrategy>();
             services.AddScoped<DefaultMagicDamageStrategy>();
 

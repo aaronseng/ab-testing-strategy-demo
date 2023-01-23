@@ -41,14 +41,14 @@ namespace Hanser.AB.Unity
             Logger.Log(string.Empty, "Running a ChangeSet...");
             _changeSetProcessor.Process(attack);
 
-            _webClient.SendChangeSet(attack);
+            await _webClient.SendChangeSet(attack);
 
             var magic = new MagicDamageChangeSet() { Id = Guid.NewGuid(), Power = user.Power };
 
             Logger.Log(string.Empty, "Running a ChangeSet...");
             _changeSetProcessor.Process(magic);
 
-            _webClient.SendChangeSet(magic);
+            await _webClient.SendChangeSet(magic);
         }
     }
 }

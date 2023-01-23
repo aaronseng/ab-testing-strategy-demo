@@ -1,5 +1,6 @@
 using Hanser.AB.Backend.Integration;
 using Hanser.AB.Shared;
+using Hanser.AB.Shared.Systems.Battle.Handler.Strategy;
 using Hanser.AB.Util;
 
 namespace Hanser.AB.Backend
@@ -10,7 +11,7 @@ namespace Hanser.AB.Backend
         private readonly ChangeSetProcessor _changeSetProcessor;
         private readonly WebApi _webApi;
 
-        public BackendRunner(ChangeSetProcessor changeSetProcessor, BackendGameEngineDataLoader gameEngineDataLoader, WebApi webApi)
+        public BackendRunner(IEnumerable<IBattleHandlerStrategy> strategies, ChangeSetProcessor changeSetProcessor, BackendGameEngineDataLoader gameEngineDataLoader, WebApi webApi)
         {
             _gameEngineDataLoader = gameEngineDataLoader;
             _changeSetProcessor = changeSetProcessor;

@@ -55,7 +55,7 @@ namespace Hanser.AB.Backend
         {
             using var reader = new StreamReader(context.Request.Body, Encoding.UTF8);
             var content =  await reader.ReadToEndAsync();
-            var changeSetRequest = JsonConvert.DeserializeObject<ChangeSetRequest>(content);
+            var changeSetRequest = JsonConvert.DeserializeObject<ChangeSetRequest>(content, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
 
             var changeSet = changeSetRequest.ChangeSet;
 

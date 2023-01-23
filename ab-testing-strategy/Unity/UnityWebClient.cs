@@ -52,13 +52,13 @@ namespace Hanser.AB.Unity
             return monster;
         }
 
-        public async void SendChangeSet(BattleChangeSet changeSet)
+        public Task<string> SendChangeSet(ChangeSet changeSet)
         {
             Logger.Log("WebClient", $"Send ChangeSet [{changeSet.GetType().Name}] to the backend", false, ConsoleColor.Magenta);
 
             // Don't need to set Groups when JWT integrated
             var request = new ChangeSetRequest() {Player = _localUser, ChangeSet = changeSet};
-            await Request("sendChangeSet", JsonConvert.SerializeObject(request));
+            return Request("sendChangeSet", JsonConvert.SerializeObject(request, Formatting.Indented, new JsonSerializerSettings(){ TypeNameHandling = TypeNameHandling.All }));
         }
     }
 }
