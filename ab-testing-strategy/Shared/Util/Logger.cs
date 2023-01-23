@@ -2,19 +2,21 @@
 {
     public static class Logger
     {
+        public static string Runner { get; set; }
+        
         private const string UnityRunner = "UnityRunner";
     
-        public static void Log(string runner, string suffix, object message, bool startWithNewLine = true, ConsoleColor suffixColor = ConsoleColor.White, ConsoleColor messageColor = ConsoleColor.White)
+        public static void Log(string suffix, object message, bool startWithNewLine = true, ConsoleColor suffixColor = ConsoleColor.White, ConsoleColor messageColor = ConsoleColor.White)
         {
-            WritePrefix(runner, suffix, startWithNewLine, suffixColor);
+            WritePrefix(suffix, startWithNewLine, suffixColor);
             Console.ForegroundColor = messageColor;
             Console.WriteLine(message);
         }
 
-        private static void WritePrefix(string runner, string suffix, bool startWithNewLine, ConsoleColor suffixColor)
+        private static void WritePrefix(string suffix, bool startWithNewLine, ConsoleColor suffixColor)
         {
-            Console.ForegroundColor = runner == UnityRunner ? ConsoleColor.Green : ConsoleColor.DarkBlue;
-            var message = $"{(startWithNewLine ? Environment.NewLine : string.Empty)}[{runner}]";
+            Console.ForegroundColor = Runner == UnityRunner ? ConsoleColor.Green : ConsoleColor.DarkBlue;
+            var message = $"{(startWithNewLine ? Environment.NewLine : string.Empty)}[{Runner}]";
             Console.Write(message);
             Console.ForegroundColor = suffixColor;
             message = suffix != string.Empty ? $"[{suffix}]" : string.Empty;
