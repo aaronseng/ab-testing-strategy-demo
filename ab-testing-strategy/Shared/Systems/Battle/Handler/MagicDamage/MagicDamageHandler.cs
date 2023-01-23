@@ -16,13 +16,13 @@ namespace Hanser.AB.Shared.Systems.Battle.Handler
             _strategyProvider = strategyProvider;
             _defaultStrategy = defaultStrategy;
         }
-        
+
         public bool Handle(ChangeSet changeSet)
         {
             Logger.Log($"Shared][{nameof(MagicDamageHandler)}", $"Handling ChangeSet [{changeSet.GetType().Name}]", false, ConsoleColor.Yellow);
 
             var strategies = _strategyProvider.Provide<MagicDamageHandler>(_defaultStrategy);
-            IStrategyResult result = new BasicStrategyResult { Result = true };
+            IStrategyResult result = new BasicStrategyResult {Result = true};
             foreach (var strategy in strategies)
             {
                 result = strategy.Handle(result);

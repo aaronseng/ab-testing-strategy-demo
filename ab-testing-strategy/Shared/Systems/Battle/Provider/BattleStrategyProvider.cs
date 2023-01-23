@@ -25,8 +25,14 @@ namespace Hanser.AB.Shared
 
             foreach (var group in _groupProvider.Provide(IUserGroupProvider.Battle))
             {
+                if (!handlers.ContainsKey(group))
+                {
+                    continue;
+                }
+
                 _provider.Add(handlers[group]);
             }
+
             if (_provider.Count == 0)
             {
                 _provider.Add(defaultStrategy);

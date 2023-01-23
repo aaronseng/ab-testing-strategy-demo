@@ -1,6 +1,5 @@
 ﻿using Hanser.AB.Shared;
 using Hanser.AB.Shared.Battle;
-using Hanser.AB.Shared.Factory;
 using Hanser.AB.Shared.Systems.Battle.Handler;
 using Hanser.AB.Shared.Systems.Battle.Handler.Strategy;
 using Hanser.AB.Shared.Systems.Battle.Provider;
@@ -39,7 +38,6 @@ namespace Hanser.AB
             services.AddScoped<IGameEngineDataLoader, UnityGameEngineDataLoader>();
             services.AddScoped<IUserDataLoader, UserDataLoader>();
             services.AddScoped<IMonsterDataLoader, MonsterDataLoader>();
-            services.AddScoped<IAttackLogicFactory, AttackLogicFactory>();
             services.AddScoped<ChangeSetProcessor>();
             services.AddScoped<BattleChangeSetProcessor>();
             services.AddScoped<AttackDamageHandler>();
